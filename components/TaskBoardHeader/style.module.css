@@ -1,0 +1,40 @@
+.taskBoardHeader {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(55, 53, 47, 0.6);
+  white-space: nowrap;
+  padding-right: 4rem;
+}
+
+.taskBoardHeader > div {
+  display: flex;
+}
+
+.taskBoardHeader > div > div {
+  padding: 0.25rem 0.35rem;
+  display: flex;
+  align-items: center;
+}
+
+.leftHeader {
+  color: #333;
+  font-weight: 600;
+}
+
+.icon {
+  margin-top: 3%;
+}
+
+.headerButton {
+  background: rgb(46, 170, 220);
+  border: 0;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0 3px 3px 0;
+  color: #fff;
+}
+
+.headerButton:first-child {
+  padding: 5px;
+  border-radius: 3px 0 0 3px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
