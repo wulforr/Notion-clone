@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css";
 import Navbar from "../components/Navbar/Navbar";
 // import ContentEditable from "react-contenteditable";
 // import { useRef } from "react";
+import TaskBoard from "../components/TaskBoard/TaskBoard";
 
 export default function Home() {
   // const text = useRef("sup");
@@ -33,13 +34,15 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1> */}
         <h1>Task List</h1>
-        <div>
+        <div className={styles.homepageParagraph}>
           Use this template to track the status of day-to-day support tasks.
         </div>
-        <div>
+        <div className={styles.homepageParagraph}>
           Tasks are assigned to one or more people and can include priority,
           tags, and a due date.
         </div>
+
+        <TaskBoard />
 
         {/* <ContentEditable
           html={text.current}
