@@ -1,0 +1,17 @@
+.nav {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav > div {
+  display: flex;
+}
+
+.nav > div > div {
+  padding: 0.25rem 0.35rem;
+}
+
+.icons {
+  margin-top: 3%;
+}
