@@ -4,16 +4,9 @@ export default function TaskCard({
   card,
   setDraggedCard,
   groupId,
-  //   onDragOver,
+  onDragOver,
 }) {
   const onDragStart = () => {
-    // e.dataTransfer.setData("id", name);
-    // e.dataTransfer.setData("prev", index);
-    //   console.log("setting prev as", index);
-    //   setSelectedCard({
-    //     cardId: name,
-    //     prevGroup: index,
-    //   });
     setDraggedCard({
       cardInfo: card,
       prevGroup: groupId,
@@ -29,7 +22,7 @@ export default function TaskCard({
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
       className={styles.taskCard}
-      //   onDragOver={() => onDragOver(card)}
+      onDragOver={() => onDragOver(card)}
     >
       {card.cardTitle}
     </div>

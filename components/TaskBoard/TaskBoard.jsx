@@ -11,6 +11,7 @@ import {
 export default function TaskBoard() {
   const [groups, setGroups] = useState(initialData);
   const [draggedCard, setDraggedCard] = useState(null);
+  const [droppedOverCardInfo, setDroppedOverCardInfo] = useState(null);
 
   useEffect(() => {
     setGroups(getValueFromLocalStorage("groups", initialData));
@@ -32,6 +33,8 @@ export default function TaskBoard() {
             draggedCard={draggedCard}
             setDraggedCard={setDraggedCard}
             groups={groups}
+            droppedOverCardInfo={droppedOverCardInfo}
+            setDroppedOverCardInfo={setDroppedOverCardInfo}
           />
         ))}
       </div>

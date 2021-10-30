@@ -2,55 +2,55 @@ import { uuid } from "uuidv4";
 
 export const initialData = [
   {
-    groupId: uuid(),
+    groupId: 1,
     groupTitle: "not started",
     groupCards: [
       {
-        cardId: uuid(),
+        cardId: 1,
         cardTitle: "card1",
       },
       {
-        cardId: uuid(),
+        cardId: 2,
         cardTitle: "card2",
       },
       {
-        cardId: uuid(),
+        cardId: 3,
         cardTitle: "card3",
       },
     ],
   },
   {
-    groupId: uuid(),
+    groupId: 2,
     groupTitle: "Next Up",
     groupCards: [
       {
-        cardId: uuid(),
+        cardId: 4,
         cardTitle: "card4",
       },
       {
-        cardId: uuid(),
+        cardId: 5,
         cardTitle: "card5",
       },
       {
-        cardId: uuid(),
+        cardId: 6,
         cardTitle: "card6",
       },
     ],
   },
   {
-    groupId: uuid(),
+    groupId: 3,
     groupTitle: "this Week",
     groupCards: [
       {
-        cardId: uuid(),
+        cardId: 7,
         cardTitle: "card7",
       },
       {
-        cardId: uuid(),
+        cardId: 8,
         cardTitle: "card8",
       },
       {
-        cardId: uuid(),
+        cardId: 9,
         cardTitle: "card9",
       },
     ],
