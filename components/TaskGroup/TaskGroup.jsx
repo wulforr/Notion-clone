@@ -1,5 +1,6 @@
 import TaskCard from "../TaskCard/TaskCard";
 import TaskGroupHeader from "./TaskGroupHeader";
+import TaskGroupFooter from "./TaskGroupFooter";
 import styles from "./style.module.css";
 
 export default function TaskGroup({
@@ -73,7 +74,7 @@ export default function TaskGroup({
           />
         ))}
       </div>
-      <div className={styles.groupFooter}>On footer</div>
+      <TaskGroupFooter />
     </div>
   );
 }

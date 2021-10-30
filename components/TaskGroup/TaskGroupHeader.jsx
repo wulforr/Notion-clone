@@ -1,6 +1,6 @@
 import styles from "./style.module.css";
 import { useState } from "react";
-import { BsThreeDots, BsPlus } from "react-icons/bs";
+import { BsThreeDots, BsPlusLg } from "react-icons/bs";
 
 export default function TaskGroupHeader({ groupTitle, totalCards }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -19,7 +19,7 @@ export default function TaskGroupHeader({ groupTitle, totalCards }) {
       onMouseLeave={handleMouseLeave}
     >
       <div className={styles.left}>
-        <div>{groupTitle}</div>
+        <div className={styles.groupTitle}>{groupTitle}</div>
         <div>{totalCards}</div>
       </div>
       {isHovered && (
@@ -27,8 +27,8 @@ export default function TaskGroupHeader({ groupTitle, totalCards }) {
           <div>
             <BsThreeDots />
           </div>
-          <div>
-            <BsPlus />
+          <div className={styles.headerPlusIcon}>
+            <BsPlusLg />
           </div>
         </div>
       )}

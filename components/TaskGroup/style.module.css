@@ -1,7 +1,9 @@
 .taskGroup {
-  width: 200px;
+  width: 260px;
+  margin: 5px;
 }
 
+/* Header */
 .groupHeader {
   display: flex;
   justify-content: space-between;
@@ -21,4 +23,36 @@
 .left > div:hover,
 .right > div:hover {
   background: var(--bg-hovered);
+}
+
+.right,
+.left {
+  color: var(--text-greyed);
+}
+
+.groupTitle {
+  color: var(--black);
+  font-weight: 500;
+}
+
+.headerPlusIcon > svg {
+  width: 12px;
+  height: 12px;
+  /* font-size: 12px; */
+}
+
+/* Footer */
+.groupFooter {
+  color: var(--text-greyed);
+  padding: 5px;
+  margin: 5px 0;
+}
+
+.groupFooter:hover {
+  background: var(--bg-hovered);
+}
+
+.groupFooter > svg {
+  width: 12px;
+  height: 12px;
 }

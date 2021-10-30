@@ -1,7 +1,7 @@
 .taskCard {
   border-radius: 3px;
   padding: 8px 10px 10px;
-  margin: 5px;
+  margin: 5px 0;
   box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px,
     rgb(15 15 15 / 10%) 0px 2px 4px;
   transition: background 100ms ease-out 0s;
