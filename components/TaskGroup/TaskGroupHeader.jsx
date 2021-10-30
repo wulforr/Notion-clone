@@ -2,7 +2,7 @@ import styles from "./style.module.css";
 import { useState } from "react";
 import { BsThreeDots, BsPlusLg } from "react-icons/bs";
 
-export default function TaskGroupHeader({ groupTitle, totalCards }) {
+export default function TaskGroupHeader({ groupTitle, totalCards, addCard }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -27,7 +27,7 @@ export default function TaskGroupHeader({ groupTitle, totalCards }) {
           <div>
             <BsThreeDots />
           </div>
-          <div className={styles.headerPlusIcon}>
+          <div className={styles.headerPlusIcon} onClick={addCard}>
             <BsPlusLg />
           </div>
         </div>

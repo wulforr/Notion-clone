@@ -1,20 +1,26 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Navbar from "../components/Navbar/Navbar";
-// import ContentEditable from "react-contenteditable";
-// import { useRef } from "react";
+import ContentEditable from "react-contenteditable";
+import { useRef } from "react";
 import TaskBoard from "../components/TaskBoard/TaskBoard";
 
 export default function Home() {
-  // const text = useRef("sup");
+  const text = useRef("sup");
+  const editDivRef = useRef(null);
 
-  // const handleChange = (evt) => {
-  //   text.current = evt.target.value;
-  // };
+  const handleChange = (evt) => {
+    text.current = evt.target.value;
+  };
 
-  // const handleBlur = () => {
-  //   console.log(text.current);
-  // };
+  const handleBlur = () => {
+    console.log(text.current);
+  };
+
+  const setFocus = () => {
+    console.log(editDivRef.current);
+    editDivRef.current.el.current.focus();
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -44,11 +50,13 @@ export default function Home() {
 
         <TaskBoard />
 
-        {/* <ContentEditable
+        <ContentEditable
           html={text.current}
           onBlur={handleBlur}
           onChange={handleChange}
-        /> */}
+          ref={editDivRef}
+        />
+        <button onClick={setFocus}>Focus</button>
       </main>
     </div>
   );

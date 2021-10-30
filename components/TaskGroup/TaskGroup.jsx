@@ -2,6 +2,7 @@ import TaskCard from "../TaskCard/TaskCard";
 import TaskGroupHeader from "./TaskGroupHeader";
 import TaskGroupFooter from "./TaskGroupFooter";
 import styles from "./style.module.css";
+import { v4 as uuidv4 } from "uuid";
 
 export default function TaskGroup({
   group,
@@ -11,6 +12,9 @@ export default function TaskGroup({
   setDraggedCard,
   setDroppedOverCardInfo,
   droppedOverCardInfo,
+  newCard,
+  setNewCard,
+  newCardRef,
 }) {
   const onDragOver = (cardInfo) => {
     console.log("setting droppedOverCardInfo as", cardInfo);
@@ -53,6 +57,29 @@ export default function TaskGroup({
     setGroups(updatedGroups);
   };
 
+  const handleAddCard = (location, groupId) => {
+    const newCardInfo = {
+      cardId: uuidv4(),
+      cardTitle: "",
+    };
+    console.log("adding newCard at", groupId, newCardInfo);
+    const groupsAfterAddingCard = groups.map((group) => {
+      if (group.groupId === groupId) {
+        if (location === "bottom") {
+          group.groupCards = [...group.groupCards, newCardInfo];
+        } else {
+          group.groupCards = [newCardInfo, ...group.groupCards];
+        }
+      }
+      return group;
+    });
+    setGroups(groupsAfterAddingCard);
+    setNewCard({
+      ...newCardInfo,
+      groupId: group.groupId,
+    });
+  };
+
   return (
     <div
       className={styles.taskGroup}
@@ -62,6 +89,7 @@ export default function TaskGroup({
       <TaskGroupHeader
         groupTitle={group.groupTitle}
         totalCards={group.groupCards.length}
+        addCard={() => handleAddCard("top", group.groupId)}
       />
       <div className={styles.taskCardsWrapper}>
         {group.groupCards.map((card) => (
@@ -71,10 +99,12 @@ export default function TaskGroup({
             setDraggedCard={setDraggedCard}
             groupId={group.groupId}
             onDragOver={onDragOver}
+            newCard={newCard}
+            newCardRef={newCardRef}
           />
         ))}
       </div>
-      <TaskGroupFooter />
+      <TaskGroupFooter addCard={() => handleAddCard("bottom", group.groupId)} />
     </div>
   );
 }
