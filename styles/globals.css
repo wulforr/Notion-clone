@@ -21,3 +21,9 @@ a {
   border: none;
   outline: none;
 }
+
+:root {
+  --color-black: #222;
+  --bg: #fff;
+  --bg-hovered: #f5f5f5;
+}

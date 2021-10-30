@@ -1,4 +1,6 @@
 import styles from "./style.module.css";
+import { BsThreeDots } from "react-icons/bs";
+import { useState } from "react";
 
 export default function TaskCard({
   card,
@@ -6,6 +8,7 @@ export default function TaskCard({
   groupId,
   onDragOver,
 }) {
+  const [isHovered, setIsHovered] = useState(false);
   const onDragStart = () => {
     setDraggedCard({
       cardInfo: card,
@@ -16,6 +19,14 @@ export default function TaskCard({
   const onDragEnd = () => {
     setDraggedCard(null);
   };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
     <div
       draggable="true"
@@ -23,8 +34,15 @@ export default function TaskCard({
       onDragEnd={onDragEnd}
       className={styles.taskCard}
       onDragOver={() => onDragOver(card)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      {card.cardTitle}
+      <div>{card.cardTitle}</div>
+      {isHovered && (
+        <div className={styles.menu}>
+          <BsThreeDots />
+        </div>
+      )}
     </div>
   );
 }

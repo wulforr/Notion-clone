@@ -1,3 +1,24 @@
 .taskGroup {
   width: 200px;
 }
+
+.groupHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left,
+.right {
+  display: flex;
+}
+
+.left > div,
+.right > div {
+  padding: 5px;
+  background: var(--bg);
+}
+
+.left > div:hover,
+.right > div:hover {
+  background: var(--bg-hovered);
+}

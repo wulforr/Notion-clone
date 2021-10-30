@@ -1,4 +1,5 @@
 import TaskCard from "../TaskCard/TaskCard";
+import TaskGroupHeader from "./TaskGroupHeader";
 import styles from "./style.module.css";
 
 export default function TaskGroup({
@@ -57,7 +58,10 @@ export default function TaskGroup({
       onDrop={() => onDrop(group.groupId)}
       onDragOver={(e) => e.preventDefault()}
     >
-      <div className={styles.groupHeader}>{group.groupTitle}</div>
+      <TaskGroupHeader
+        groupTitle={group.groupTitle}
+        totalCards={group.groupCards.length}
+      />
       <div className={styles.taskCardsWrapper}>
         {group.groupCards.map((card) => (
           <TaskCard

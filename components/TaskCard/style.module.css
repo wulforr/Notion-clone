@@ -1,5 +1,26 @@
 .taskCard {
-  border: 1px solid #333;
-  padding: 5px;
+  border-radius: 3px;
+  padding: 8px 10px 10px;
   margin: 5px;
+  box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px,
+    rgb(15 15 15 / 10%) 0px 2px 4px;
+  transition: background 100ms ease-out 0s;
+  background: var(--bg);
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskCard:hover {
+  background: var(--bg-hovered);
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  background: var(--bg);
+  box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px,
+    rgb(15 15 15 / 10%) 0px 2px 4px;
+  border-radius: 3px;
 }
