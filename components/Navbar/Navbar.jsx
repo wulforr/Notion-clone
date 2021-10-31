@@ -2,17 +2,28 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { GoClock } from "react-icons/go";
 import { AiOutlineStar } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
+import { MdOutlineOpenInFull } from "react-icons/md";
+
 import styles from "./style.module.css";
 
-export default function Navbar() {
+export default function Navbar({ isModal }) {
   return (
     <nav className={styles.nav}>
-      <div>
-        <div className={styles.icons}>
-          <GiHamburgerMenu />
+      {isModal ? (
+        <div>
+          <div className={styles.icons}>
+            <MdOutlineOpenInFull />
+          </div>
+          <div>Open as page</div>
         </div>
-        <div>Task List</div>
-      </div>
+      ) : (
+        <div>
+          <div className={styles.icons}>
+            <GiHamburgerMenu />
+          </div>
+          <div>Task List</div>
+        </div>
+      )}
       <div>
         <div>Share</div>
         <div className={styles.icons}>

@@ -61,6 +61,7 @@ export default function TaskGroup({
     const newCardInfo = {
       cardId: uuidv4(),
       cardTitle: "",
+      cardDescription: "",
     };
     console.log("adding newCard at", groupId, newCardInfo);
     const groupsAfterAddingCard = groups.map((group) => {
@@ -80,6 +81,11 @@ export default function TaskGroup({
     });
   };
 
+  const statusOptions = groups.map((group) => ({
+    value: group.groupTitle,
+    label: group.groupTitle,
+  }));
+
   return (
     <div
       className={styles.taskGroup}
@@ -97,10 +103,11 @@ export default function TaskGroup({
             key={card.cardId}
             card={card}
             setDraggedCard={setDraggedCard}
-            groupId={group.groupId}
+            group={group}
             onDragOver={onDragOver}
             newCard={newCard}
             newCardRef={newCardRef}
+            statusOptions={statusOptions}
           />
         ))}
       </div>

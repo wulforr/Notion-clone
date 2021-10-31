@@ -5,6 +5,7 @@
   box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px,
     rgb(15 15 15 / 10%) 0px 2px 4px;
   transition: background 100ms ease-out 0s;
+  min-height: 40px;
   background: var(--bg);
   display: flex;
   justify-content: space-between;
@@ -23,4 +24,52 @@
   box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px,
     rgb(15 15 15 / 10%) 0px 2px 4px;
   border-radius: 3px;
+}
+
+.modalWrapper {
+  width: 80vw;
+  height: 80vh;
+}
+
+.modalContent {
+  padding: 40px 80px;
+}
+
+.modalTitle {
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #37352f;
+  margin-bottom: 20px;
+}
+
+.modalRow {
+  display: flex;
+  align-items: center;
+}
+
+.modalRow > div {
+  margin: 10px;
+}
+
+.modalRow > div:first-child {
+  display: flex;
+  color: var(--text-greyed);
+}
+
+.modalRow > div:last-child {
+  min-width: 150px;
+}
+
+.modalRow > div:hover {
+  background: var(--bg-hovered);
+}
+
+.modalIcon {
+  margin-top: 3%;
+}
+
+.modalDescription {
+  color: var(--text-greyed);
+  margin: 30px 10px;
 }
