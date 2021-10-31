@@ -15,9 +15,10 @@ export default function TaskGroup({
   newCard,
   setNewCard,
   newCardRef,
+  updateAllGroups,
 }) {
+  const { groupId, groupCards, groupTitle } = group;
   const onDragOver = (cardInfo) => {
-    console.log("setting droppedOverCardInfo as", cardInfo);
     setDroppedOverCardInfo(cardInfo);
   };
 
@@ -30,13 +31,14 @@ export default function TaskGroup({
     return -1;
   };
 
-  const onDrop = (groupId) => {
+  const onDrop = () => {
     console.log("calling onDrop", groupId, draggedCard, droppedOverCardInfo);
     if (draggedCard.cardInfo.cardId === droppedOverCardInfo.cardId) {
       return;
     }
     const updatedGroups = groups.map((group) => {
       if (group.groupId === groupId) {
+        // if rearranging within same group
         const cardsWithoutDraggedCard = group.groupCards.filter(
           (card) => card.cardId != draggedCard.cardInfo.cardId
         );
@@ -57,27 +59,30 @@ export default function TaskGroup({
     setGroups(updatedGroups);
   };
 
-  const handleAddCard = (location, groupId) => {
+  const handleAddCard = (location = "bottom") => {
     const newCardInfo = {
       cardId: uuidv4(),
       cardTitle: "",
       cardDescription: "",
     };
-    console.log("adding newCard at", groupId, newCardInfo);
-    const groupsAfterAddingCard = groups.map((group) => {
-      if (group.groupId === groupId) {
-        if (location === "bottom") {
-          group.groupCards = [...group.groupCards, newCardInfo];
-        } else {
-          group.groupCards = [newCardInfo, ...group.groupCards];
-        }
-      }
-      return group;
-    });
-    setGroups(groupsAfterAddingCard);
+    let groupCardsAfterAdding;
+
+    if (location === "bottom") {
+      groupCardsAfterAdding = [...groupCards, newCardInfo];
+    } else {
+      groupCardsAfterAdding = [newCardInfo, ...groupCards];
+    }
+
+    const updatedGroupAfterAdding = {
+      ...group,
+      groupCards: groupCardsAfterAdding,
+    };
+
+    updateGroup(groupId, updatedGroupAfterAdding);
+
     setNewCard({
       ...newCardInfo,
-      groupId: group.groupId,
+      groupId,
     });
   };
 
@@ -86,16 +91,24 @@ export default function TaskGroup({
     label: group.groupTitle,
   }));
 
+  const updateGroup = (groupId, updatedGroup) => {
+    const copyOfGroups = [...groups];
+    const index = copyOfGroups.findIndex((group) => group.groupId === groupId);
+    copyOfGroups.splice(index, 1, updatedGroup);
+    console.log("copy", copyOfGroups);
+    updateAllGroups(copyOfGroups);
+  };
+
   return (
     <div
       className={styles.taskGroup}
-      onDrop={() => onDrop(group.groupId)}
+      onDrop={onDrop}
       onDragOver={(e) => e.preventDefault()}
     >
       <TaskGroupHeader
-        groupTitle={group.groupTitle}
+        groupTitle={groupTitle}
         totalCards={group.groupCards.length}
-        addCard={() => handleAddCard("top", group.groupId)}
+        addCard={() => handleAddCard("top")}
       />
       <div className={styles.taskCardsWrapper}>
         {group.groupCards.map((card) => (
@@ -108,10 +121,11 @@ export default function TaskGroup({
             newCard={newCard}
             newCardRef={newCardRef}
             statusOptions={statusOptions}
+            updateGroup={updateGroup}
           />
         ))}
       </div>
-      <TaskGroupFooter addCard={() => handleAddCard("bottom", group.groupId)} />
+      <TaskGroupFooter addCard={() => handleAddCard("bottom")} />
     </div>
   );
 }

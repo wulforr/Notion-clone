@@ -49,6 +49,10 @@ export default function TaskBoard() {
     }
   }, [groups, newCard]);
 
+  const updateAllGroups = (updatedGroups) => {
+    setGroups(updatedGroups);
+  };
+
   return (
     <div className={styles.taskBoard}>
       <TaskBoardHeader />
@@ -66,6 +70,7 @@ export default function TaskBoard() {
             newCard={newCard}
             setNewCard={setNewCard}
             newCardRef={newCardRef}
+            updateAllGroups={updateAllGroups}
           />
         ))}
       </div>

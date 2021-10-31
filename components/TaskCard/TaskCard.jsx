@@ -32,8 +32,6 @@ export default function TaskCard({
     ref.current = evt.target.value;
   };
 
-  console.log("isopen in card with cardId: ", card.cardId, isOpen);
-
   //   const handleChange = (evt) => {
   //     text.current = evt.target.value;
   //   };
