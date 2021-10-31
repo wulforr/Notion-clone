@@ -15,7 +15,6 @@ export default function TaskGroup({
   newCard,
   setNewCard,
   newCardRef,
-  updateAllGroups,
 }) {
   const { groupId, groupCards, groupTitle } = group;
   const onDragOver = (cardInfo) => {
@@ -32,31 +31,31 @@ export default function TaskGroup({
   };
 
   const onDrop = () => {
-    console.log("calling onDrop", groupId, draggedCard, droppedOverCardInfo);
     if (draggedCard.cardInfo.cardId === droppedOverCardInfo.cardId) {
       return;
     }
-    const updatedGroups = groups.map((group) => {
-      if (group.groupId === groupId) {
-        // if rearranging within same group
-        const cardsWithoutDraggedCard = group.groupCards.filter(
-          (card) => card.cardId != draggedCard.cardInfo.cardId
-        );
+    // adding of card in dropped group
+    const copyOfCards = group.groupCards.filter(
+      (card) => card.cardId != draggedCard.cardInfo.cardId
+    );
+    copyOfCards.splice(
+      findIndexOfCard(copyOfCards, droppedOverCardInfo.cardId),
+      0,
+      draggedCard.cardInfo
+    );
+    updateGroup(groupId, { ...group, groupCards: copyOfCards });
 
-        cardsWithoutDraggedCard.splice(
-          findIndexOfCard(cardsWithoutDraggedCard, droppedOverCardInfo.cardId),
-          0,
-          draggedCard.cardInfo
-        );
-        group.groupCards = [...cardsWithoutDraggedCard];
-      } else if (group.groupId === draggedCard.prevGroup) {
-        group.groupCards = group.groupCards.filter(
-          (card) => card.cardId !== draggedCard.cardInfo.cardId
-        );
-      }
-      return group;
-    });
-    setGroups(updatedGroups);
+    //removing card from previous group
+    const prevGroupId = draggedCard.prevGroup;
+    if (prevGroupId !== groupId) {
+      const copyOfPrevGroup = {
+        ...groups.filter((group) => group.groupId === prevGroupId)[0],
+      };
+      copyOfPrevGroup.groupCards = copyOfPrevGroup.groupCards.filter(
+        (card) => card.cardId != draggedCard.cardInfo.cardId
+      );
+      updateGroup(prevGroupId, copyOfPrevGroup);
+    }
   };
 
   const handleAddCard = (location = "bottom") => {
@@ -91,12 +90,15 @@ export default function TaskGroup({
     label: group.groupTitle,
   }));
 
-  const updateGroup = (groupId, updatedGroup) => {
+  const updateAllGroups = (groups, groupId, updatedGroup) => {
     const copyOfGroups = [...groups];
     const index = copyOfGroups.findIndex((group) => group.groupId === groupId);
     copyOfGroups.splice(index, 1, updatedGroup);
-    console.log("copy", copyOfGroups);
-    updateAllGroups(copyOfGroups);
+    return copyOfGroups;
+  };
+
+  const updateGroup = (groupId, updatedGroup) => {
+    setGroups((groups) => updateAllGroups(groups, groupId, updatedGroup));
   };
 
   return (
@@ -117,6 +119,7 @@ export default function TaskGroup({
             card={card}
             setDraggedCard={setDraggedCard}
             group={group}
+            groups={groups}
             onDragOver={onDragOver}
             newCard={newCard}
             newCardRef={newCardRef}

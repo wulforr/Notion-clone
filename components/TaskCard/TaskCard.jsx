@@ -12,46 +12,38 @@ export default function TaskCard({
   card,
   setDraggedCard,
   group,
+  groups,
   onDragOver,
   newCard,
   newCardRef,
   statusOptions,
+  updateGroup,
 }) {
-  const { groupId, groupTitle } = group;
+  const { groupId, groupTitle, groupCards } = group;
+  const { cardId, cardDescription, cardTitle } = card;
+  const defaultStatus = {
+    value: groupTitle,
+    label: groupTitle,
+  };
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const text = useRef("");
-  const titleRef = useRef(card.cardTitle || "Empty");
-  const descriptionRef = useRef(card.cardDescription || "add description");
-  const [selectedStatus, setSelectedStatus] = useState({
-    value: groupTitle,
-    label: groupTitle,
-  });
+  const titleRef = useRef(cardTitle || "Empty");
+  const descriptionRef = useRef(cardDescription || "add description");
+  const [selectedStatus, setSelectedStatus] = useState(defaultStatus);
 
   const handleChange = (evt, ref) => {
     ref.current = evt.target.value;
   };
 
-  //   const handleChange = (evt) => {
-  //     text.current = evt.target.value;
-  //   };
-
-  const handleBlur = () => {
-    console.log(text.current);
-  };
-
-  //   const setFocus = () => {
-  //     console.log(editDivRef.current);
-  //     editDivRef.current.el.current.focus();
-  //   };
-
   const handleSaveAndClose = (e) => {
     e.stopPropagation();
     const title = titleRef.current;
     const description = descriptionRef.current;
-    console.log("logging", title, description);
+    updateCard();
     setIsOpen(false);
   };
+
   const onDragStart = () => {
     setDraggedCard({
       cardInfo: card,
@@ -74,6 +66,38 @@ export default function TaskCard({
   const handleStatusChange = (newStatus) => {
     setSelectedStatus(newStatus);
   };
+
+  const updateCard = () => {
+    const updatedCard = {
+      cardId,
+      cardTitle: titleRef.current,
+      cardDescription: titleRef.current,
+    };
+    if (selectedStatus.value === groupTitle) {
+      const cardsAfterUpdating = groupCards.map((card) => {
+        if (card.cardId === cardId) {
+          return updatedCard;
+        }
+        return card;
+      });
+      updateGroup(groupId, {
+        ...group,
+        groupCards: cardsAfterUpdating,
+      });
+    } else {
+      const oldStatusGroup = { ...group };
+      const newStatusGroup = groups.filter(
+        (group) => group.groupTitle === selectedStatus.value
+      )[0];
+
+      oldStatusGroup.groupCards = oldStatusGroup.groupCards.filter(
+        (card) => card.cardId !== cardId
+      );
+      updateGroup(groupId, oldStatusGroup);
+      newStatusGroup.groupCards = [...newStatusGroup.groupCards, updatedCard];
+      updateGroup(newStatusGroup.groupId, newStatusGroup);
+    }
+  };
   return (
     <div
       draggable="true"
@@ -85,15 +109,14 @@ export default function TaskCard({
       onMouseLeave={handleMouseLeave}
       onClick={() => setIsOpen(true)}
     >
-      {card.cardId === newCard?.cardId ? (
+      {cardId === newCard?.cardId ? (
         <ContentEditable
           html={text.current}
-          onBlur={handleBlur}
           onChange={(e) => handleChange(e, text)}
           ref={newCardRef}
         />
       ) : (
-        <div>{card.cardTitle || "Empty"}</div>
+        <div>{cardTitle || "Empty"}</div>
       )}
 
       {isHovered && (
