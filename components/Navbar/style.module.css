@@ -15,3 +15,13 @@
 .icons {
   margin-top: 3%;
 }
+
+.menuButton {
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.menuButton:hover {
+  background-color: var(--bg-hovered);
+}

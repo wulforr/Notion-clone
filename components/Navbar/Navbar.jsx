@@ -2,11 +2,13 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { GoClock } from "react-icons/go";
 import { AiOutlineStar } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
-import { MdOutlineOpenInFull } from "react-icons/md";
-
+import { MdOutlineOpenInFull, MdDeleteOutline } from "react-icons/md";
+import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
+import { RiFileCopyLine } from "react-icons/ri";
+import { FiEdit } from "react-icons/fi";
 import styles from "./style.module.css";
 
-export default function Navbar({ isModal }) {
+export default function Navbar({ isModal, handleDelete }) {
   return (
     <nav className={styles.nav}>
       {isModal ? (
@@ -33,7 +35,30 @@ export default function Navbar({ isModal }) {
           <AiOutlineStar />
         </div>
         <div className={styles.icons}>
-          <BsThreeDots />
+          {isModal ? (
+            <div className={styles.menu} onClick={(e) => e.stopPropagation()}>
+              <Menu
+                menuButton={
+                  <MenuButton className={styles.menuButton}>
+                    <BsThreeDots />
+                  </MenuButton>
+                }
+                transition
+              >
+                <MenuItem className={styles.menuItem}>
+                  <FiEdit /> Rename
+                </MenuItem>
+                <MenuItem className={styles.menuItem} onClick={handleDelete}>
+                  <MdDeleteOutline /> Delete
+                </MenuItem>
+                <MenuItem className={styles.menuItem}>
+                  <RiFileCopyLine /> Duplicate
+                </MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <BsThreeDots />
+          )}
         </div>
       </div>
     </nav>

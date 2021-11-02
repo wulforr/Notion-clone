@@ -1,12 +1,17 @@
 import styles from "./style.module.css";
 import { BsThreeDots } from "react-icons/bs";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
-import { MdGroup } from "react-icons/md";
+import { RiFileCopyLine } from "react-icons/ri";
+import { FiEdit } from "react-icons/fi";
+import { MdGroup, MdDeleteOutline } from "react-icons/md";
 import { useState, useRef } from "react";
 import ContentEditable from "react-contenteditable";
 import Modal from "../Modal/Modal";
 import Navbar from "../Navbar/Navbar";
 import Select from "react-select";
+import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
+import "@szhsin/react-menu/dist/transitions/slide.css";
 
 export default function TaskCard({
   card,
@@ -38,8 +43,6 @@ export default function TaskCard({
 
   const handleSaveAndClose = (e) => {
     e.stopPropagation();
-    const title = titleRef.current;
-    const description = descriptionRef.current;
     updateCard();
     setIsOpen(false);
   };
@@ -98,6 +101,13 @@ export default function TaskCard({
       updateGroup(newStatusGroup.groupId, newStatusGroup);
     }
   };
+
+  const handleDelete = () => {
+    const groupCardsAfterDeleting = groupCards.filter(
+      (card) => card.cardId !== cardId
+    );
+    updateGroup(groupId, { ...group, groupCards: groupCardsAfterDeleting });
+  };
   return (
     <div
       draggable="true"
@@ -119,18 +129,35 @@ export default function TaskCard({
         <div>{cardTitle || "Empty"}</div>
       )}
 
-      {isHovered && (
-        <div className={styles.menu}>
-          <BsThreeDots />
-        </div>
-      )}
+      {/* {isHovered && ( */}
+      <div className={styles.menu} onClick={(e) => e.stopPropagation()}>
+        <Menu
+          menuButton={
+            <MenuButton className={styles.menuButton}>
+              <BsThreeDots />
+            </MenuButton>
+          }
+          transition
+        >
+          <MenuItem className={styles.menuItem}>
+            <FiEdit /> Rename
+          </MenuItem>
+          <MenuItem className={styles.menuItem} onClick={handleDelete}>
+            <MdDeleteOutline /> Delete
+          </MenuItem>
+          <MenuItem className={styles.menuItem}>
+            <RiFileCopyLine /> Duplicate
+          </MenuItem>
+        </Menu>
+      </div>
+      {/* )} */}
 
       <Modal open={isOpen} handleSaveAndClose={handleSaveAndClose}>
         <div
           onClick={(e) => e.stopPropagation()}
           className={styles.modalWrapper}
         >
-          <Navbar isModal />
+          <Navbar isModal handleDelete={handleDelete} />
           <div className={styles.modalContent}>
             <ContentEditable
               html={titleRef.current}
