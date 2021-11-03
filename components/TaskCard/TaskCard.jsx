@@ -41,10 +41,34 @@ export default function TaskCard({
     ref.current = evt.target.value;
   };
 
+  const handleDelete = () => {
+    const groupCardsAfterDeleting = groupCards.filter(
+      (card) => card.cardId !== cardId
+    );
+    updateGroup(groupId, { ...group, groupCards: groupCardsAfterDeleting });
+  };
+
+  const handleModalOpen = () => {
+    setIsOpen(true);
+    setIsHovered(false);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   const handleSaveAndClose = (e) => {
     e.stopPropagation();
     updateCard();
     setIsOpen(false);
+  };
+
+  const handleStatusChange = (newStatus) => {
+    setSelectedStatus(newStatus);
   };
 
   const onDragStart = () => {
@@ -56,18 +80,6 @@ export default function TaskCard({
 
   const onDragEnd = () => {
     setDraggedCard(null);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-  const handleStatusChange = (newStatus) => {
-    setSelectedStatus(newStatus);
   };
 
   const updateCard = () => {
@@ -102,12 +114,6 @@ export default function TaskCard({
     }
   };
 
-  const handleDelete = () => {
-    const groupCardsAfterDeleting = groupCards.filter(
-      (card) => card.cardId !== cardId
-    );
-    updateGroup(groupId, { ...group, groupCards: groupCardsAfterDeleting });
-  };
   return (
     <div
       draggable="true"
@@ -117,7 +123,7 @@ export default function TaskCard({
       onDragOver={() => onDragOver(card)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={() => setIsOpen(true)}
+      onClick={handleModalOpen}
     >
       {cardId === newCard?.cardId ? (
         <ContentEditable

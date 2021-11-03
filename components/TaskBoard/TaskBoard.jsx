@@ -31,12 +31,10 @@ export default function TaskBoard() {
 
   useEffect(() => {
     if (newCard) {
-      console.log("focusing on", newCardRef);
       const ele = newCardRef.current?.el.current;
       ele?.focus();
       ele?.addEventListener("blur", () => {
         const value = ele?.innerText;
-        console.log("value is", value);
         const updatedGroups = groups.map((group) => {
           if (group.groupId === newCard.groupId) {
             group.groupCards = group.groupCards.map((card) => {
@@ -84,9 +82,7 @@ export default function TaskBoard() {
   };
 
   const handleKeyDown = (e) => {
-    console.log("pressing");
     if (e.keyCode === 13) {
-      console.log("Enter pressed");
       addNewGroup();
     }
   };

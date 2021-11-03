@@ -6,6 +6,7 @@
   position: sticky;
   left: 0;
   max-width: 90vw;
+  width: 90vw;
 }
 
 .taskBoardHeader > div {
