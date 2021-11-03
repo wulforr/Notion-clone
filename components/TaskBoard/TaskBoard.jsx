@@ -7,6 +7,8 @@ import {
   getValueFromLocalStorage,
   setValueToLocalStorage,
 } from "../../utils/localStorage";
+import { BsPlusLg } from "react-icons/bs";
+import { v4 as uuidv4 } from "uuid";
 
 export default function TaskBoard() {
   const [groups, setGroups] = useState(initialData);
@@ -14,10 +16,13 @@ export default function TaskBoard() {
   const [droppedOverCardInfo, setDroppedOverCardInfo] = useState(null);
   const [newCard, setNewCard] = useState(null);
   const newCardRef = useRef(null);
+  const [showNewGroupInput, setShowNewGroupInput] = useState(false);
+  const [newGroupTitle, setNewGroupTitle] = useState("");
+  const newGroupInputRef = useRef(null);
 
   useEffect(() => {
     setGroups(getValueFromLocalStorage("groups", initialData));
-    // setGroups(initialData);
+    setGroups(initialData);
   }, []);
 
   useEffect(() => {
@@ -49,8 +54,45 @@ export default function TaskBoard() {
     }
   }, [groups, newCard]);
 
+  useEffect(() => {
+    if (showNewGroupInput) {
+      newGroupInputRef.current.focus();
+    }
+  }, [showNewGroupInput]);
+
   const updateAllGroups = (updatedGroups) => {
     setGroups(updatedGroups);
+  };
+
+  const handleAddGroup = () => {
+    setShowNewGroupInput(true);
+  };
+
+  const handleGroupTitleChange = (e) => {
+    setNewGroupTitle(e.target.value);
+  };
+
+  const addNewGroup = () => {
+    const newGroupInfo = {
+      groupId: uuidv4(),
+      groupTitle: newGroupTitle,
+      groupCards: [],
+    };
+    setGroups((groups) => [...groups, newGroupInfo]);
+    setShowNewGroupInput("");
+    setNewGroupTitle("");
+  };
+
+  const handleKeyDown = (e) => {
+    console.log("pressing");
+    if (e.keyCode === 13) {
+      console.log("Enter pressed");
+      addNewGroup();
+    }
+  };
+
+  const handleBlur = () => {
+    addNewGroup();
   };
 
   return (
@@ -73,6 +115,23 @@ export default function TaskBoard() {
             updateAllGroups={updateAllGroups}
           />
         ))}
+        <div>
+          {showNewGroupInput ? (
+            <input
+              type="text"
+              onChange={handleGroupTitleChange}
+              value={newGroupTitle}
+              className={styles.addNewGroupInput}
+              ref={newGroupInputRef}
+              onKeyDown={handleKeyDown}
+              onBlur={handleBlur}
+            />
+          ) : (
+            <div className={styles.addNewGroup} onClick={handleAddGroup}>
+              <BsPlusLg /> Add a group
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

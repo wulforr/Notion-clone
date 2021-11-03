@@ -13,13 +13,15 @@ export default function Home() {
       </Head>
       <Navbar />
       <main className={styles.main}>
-        <h1>Task List</h1>
-        <div className={styles.homepageParagraph}>
-          Use this template to track the status of day-to-day support tasks.
-        </div>
-        <div className={styles.homepageParagraph}>
-          Tasks are assigned to one or more people and can include priority,
-          tags, and a due date.
+        <div className={styles.mainContent}>
+          <h1>Task List</h1>
+          <div className={styles.homepageParagraph}>
+            Use this template to track the status of day-to-day support tasks.
+          </div>
+          <div className={styles.homepageParagraph}>
+            Tasks are assigned to one or more people and can include priority,
+            tags, and a due date.
+          </div>
         </div>
 
         <TaskBoard />

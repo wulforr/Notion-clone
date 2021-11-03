@@ -129,28 +129,28 @@ export default function TaskCard({
         <div>{cardTitle || "Empty"}</div>
       )}
 
-      {/* {isHovered && ( */}
-      <div className={styles.menu} onClick={(e) => e.stopPropagation()}>
-        <Menu
-          menuButton={
-            <MenuButton className={styles.menuButton}>
-              <BsThreeDots />
-            </MenuButton>
-          }
-          transition
-        >
-          <MenuItem className={styles.menuItem}>
-            <FiEdit /> Rename
-          </MenuItem>
-          <MenuItem className={styles.menuItem} onClick={handleDelete}>
-            <MdDeleteOutline /> Delete
-          </MenuItem>
-          <MenuItem className={styles.menuItem}>
-            <RiFileCopyLine /> Duplicate
-          </MenuItem>
-        </Menu>
-      </div>
-      {/* )} */}
+      {isHovered && (
+        <div className={styles.menu} onClick={(e) => e.stopPropagation()}>
+          <Menu
+            menuButton={
+              <MenuButton className={styles.menuButton}>
+                <BsThreeDots />
+              </MenuButton>
+            }
+            transition
+          >
+            <MenuItem className={styles.menuItem}>
+              <FiEdit /> Rename
+            </MenuItem>
+            <MenuItem className={styles.menuItem} onClick={handleDelete}>
+              <MdDeleteOutline /> Delete
+            </MenuItem>
+            <MenuItem className={styles.menuItem}>
+              <RiFileCopyLine /> Duplicate
+            </MenuItem>
+          </Menu>
+        </div>
+      )}
 
       <Modal open={isOpen} handleSaveAndClose={handleSaveAndClose}>
         <div

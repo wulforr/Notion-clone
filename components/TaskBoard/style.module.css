@@ -1,9 +1,37 @@
 .taskBoard {
   margin: 2rem 0;
+  overflow: visible;
+  width: max-content;
 }
 
 .taskGroupsWrapper {
   display: flex;
   margin-top: 8px;
   border-top: 1px solid rgb(233, 233, 231);
+  padding-bottom: 180px;
+}
+
+.addNewGroup {
+  color: var(--text-greyed);
+  padding: 5px;
+  margin: 5px 0;
+  width: 260px;
+}
+
+.addNewGroup:hover {
+  background: var(--bg-hovered);
+}
+
+.addNewGroup > svg {
+  width: 12px;
+  height: 12px;
+}
+
+.addNewGroupInput {
+  padding: 5px;
+  margin: 5px;
+  border-radius: 4px;
+  border: 2px solid #2eaadc;
+  outline: none;
+  width: 260px;
 }

@@ -9,6 +9,8 @@
   background: var(--bg);
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  word-break: break-word;
 }
 
 .taskCard:hover {

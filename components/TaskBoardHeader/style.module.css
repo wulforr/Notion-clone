@@ -3,7 +3,9 @@
   justify-content: space-between;
   color: rgba(55, 53, 47, 0.6);
   white-space: nowrap;
-  padding-right: 4rem;
+  position: sticky;
+  left: 0;
+  max-width: 90vw;
 }
 
 .taskBoardHeader > div {
