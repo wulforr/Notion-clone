@@ -4,7 +4,7 @@ import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { RiFileCopyLine } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import { MdGroup, MdDeleteOutline } from "react-icons/md";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ContentEditable from "react-contenteditable";
 import Modal from "../Modal/Modal";
 import Navbar from "../Navbar/Navbar";
@@ -20,9 +20,8 @@ export default function TaskCard({
   groups,
   onDragOver,
   newCard,
-  newCardRef,
-  statusOptions,
   updateGroup,
+  setNewCard,
 }) {
   const { groupId, groupTitle, groupCards } = group;
   const { cardId, cardDescription, cardTitle } = card;
@@ -36,6 +35,28 @@ export default function TaskCard({
   const titleRef = useRef(cardTitle || "Empty");
   const descriptionRef = useRef(cardDescription || "add description");
   const [selectedStatus, setSelectedStatus] = useState(defaultStatus);
+  const newCardRef = useRef(null);
+
+  useEffect(() => {
+    if (newCardRef.current) {
+      newCardRef.current.el.current.focus();
+    }
+  }, []);
+
+  const handleBlur = () => {
+    const updatedGroupCards = groupCards.map((card) => {
+      if (card.cardId === cardId) {
+        return {
+          ...card,
+          cardTitle: text.current,
+        };
+      }
+      return card;
+    });
+    const updatedGroup = { ...group, groupCards: updatedGroupCards };
+    updateGroup(groupId, updatedGroup);
+    setNewCard(null);
+  };
 
   const handleChange = (evt, ref) => {
     ref.current = evt.target.value;
@@ -51,6 +72,8 @@ export default function TaskCard({
   const handleModalOpen = () => {
     setIsOpen(true);
     setIsHovered(false);
+    titleRef.current = cardTitle || "Empty";
+    descriptionRef.current = cardDescription || "add description";
   };
 
   const handleMouseEnter = () => {
@@ -82,11 +105,16 @@ export default function TaskCard({
     setDraggedCard(null);
   };
 
+  const statusOptions = groups.map((group) => ({
+    value: group.groupTitle,
+    label: group.groupTitle,
+  }));
+
   const updateCard = () => {
     const updatedCard = {
       cardId,
       cardTitle: titleRef.current,
-      cardDescription: titleRef.current,
+      cardDescription: descriptionRef.current,
     };
     if (selectedStatus.value === groupTitle) {
       const cardsAfterUpdating = groupCards.map((card) => {
@@ -130,6 +158,7 @@ export default function TaskCard({
           html={text.current}
           onChange={(e) => handleChange(e, text)}
           ref={newCardRef}
+          onBlur={handleBlur}
         />
       ) : (
         <div>{cardTitle || "Empty"}</div>

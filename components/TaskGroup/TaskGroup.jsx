@@ -14,12 +14,8 @@ export default function TaskGroup({
   droppedOverCardInfo,
   newCard,
   setNewCard,
-  newCardRef,
 }) {
   const { groupId, groupCards, groupTitle } = group;
-  const onDragOver = (cardInfo) => {
-    setDroppedOverCardInfo(cardInfo);
-  };
 
   const findIndexOfCard = (cards, cardId) => {
     for (let i = 0; i < cards.length; i++) {
@@ -28,6 +24,36 @@ export default function TaskGroup({
       }
     }
     return -1;
+  };
+
+  const handleAddCard = (location = "bottom") => {
+    const newCardInfo = {
+      cardId: uuidv4(),
+      cardTitle: "",
+      cardDescription: "",
+    };
+    let groupCardsAfterAdding;
+
+    if (location === "bottom") {
+      groupCardsAfterAdding = [...groupCards, newCardInfo];
+    } else {
+      groupCardsAfterAdding = [newCardInfo, ...groupCards];
+    }
+
+    const updatedGroupAfterAdding = {
+      ...group,
+      groupCards: groupCardsAfterAdding,
+    };
+
+    updateGroup(groupId, updatedGroupAfterAdding);
+
+    setNewCard({
+      ...newCardInfo,
+      groupId,
+    });
+  };
+  const onDragOver = (cardInfo) => {
+    setDroppedOverCardInfo(cardInfo);
   };
 
   const onDrop = () => {
@@ -57,38 +83,6 @@ export default function TaskGroup({
       updateGroup(prevGroupId, copyOfPrevGroup);
     }
   };
-
-  const handleAddCard = (location = "bottom") => {
-    const newCardInfo = {
-      cardId: uuidv4(),
-      cardTitle: "",
-      cardDescription: "",
-    };
-    let groupCardsAfterAdding;
-
-    if (location === "bottom") {
-      groupCardsAfterAdding = [...groupCards, newCardInfo];
-    } else {
-      groupCardsAfterAdding = [newCardInfo, ...groupCards];
-    }
-
-    const updatedGroupAfterAdding = {
-      ...group,
-      groupCards: groupCardsAfterAdding,
-    };
-
-    updateGroup(groupId, updatedGroupAfterAdding);
-
-    setNewCard({
-      ...newCardInfo,
-      groupId,
-    });
-  };
-
-  const statusOptions = groups.map((group) => ({
-    value: group.groupTitle,
-    label: group.groupTitle,
-  }));
 
   const updateAllGroups = (groups, groupId, updatedGroup) => {
     const copyOfGroups = [...groups];
@@ -122,8 +116,7 @@ export default function TaskGroup({
             groups={groups}
             onDragOver={onDragOver}
             newCard={newCard}
-            newCardRef={newCardRef}
-            statusOptions={statusOptions}
+            setNewCard={setNewCard}
             updateGroup={updateGroup}
           />
         ))}

@@ -15,14 +15,12 @@ export default function TaskBoard() {
   const [draggedCard, setDraggedCard] = useState(null);
   const [droppedOverCardInfo, setDroppedOverCardInfo] = useState(null);
   const [newCard, setNewCard] = useState(null);
-  const newCardRef = useRef(null);
   const [showNewGroupInput, setShowNewGroupInput] = useState(false);
   const [newGroupTitle, setNewGroupTitle] = useState("");
   const newGroupInputRef = useRef(null);
 
   useEffect(() => {
     setGroups(getValueFromLocalStorage("groups", initialData));
-    setGroups(initialData);
   }, []);
 
   useEffect(() => {
@@ -30,45 +28,10 @@ export default function TaskBoard() {
   }, [groups]);
 
   useEffect(() => {
-    if (newCard) {
-      const ele = newCardRef.current?.el.current;
-      ele?.focus();
-      ele?.addEventListener("blur", () => {
-        const value = ele?.innerText;
-        const updatedGroups = groups.map((group) => {
-          if (group.groupId === newCard.groupId) {
-            group.groupCards = group.groupCards.map((card) => {
-              if (card.cardId === newCard.cardId) {
-                card.cardTitle = value;
-              }
-              return card;
-            });
-          }
-          return group;
-        });
-        setGroups([...updatedGroups]);
-        setNewCard(null);
-      });
-    }
-  }, [groups, newCard]);
-
-  useEffect(() => {
     if (showNewGroupInput) {
       newGroupInputRef.current.focus();
     }
   }, [showNewGroupInput]);
-
-  const updateAllGroups = (updatedGroups) => {
-    setGroups(updatedGroups);
-  };
-
-  const handleAddGroup = () => {
-    setShowNewGroupInput(true);
-  };
-
-  const handleGroupTitleChange = (e) => {
-    setNewGroupTitle(e.target.value);
-  };
 
   const addNewGroup = () => {
     const newGroupInfo = {
@@ -81,16 +44,27 @@ export default function TaskBoard() {
     setNewGroupTitle("");
   };
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      addNewGroup();
-    }
+  const handleAddGroup = () => {
+    setShowNewGroupInput(true);
   };
 
   const handleBlur = () => {
     addNewGroup();
   };
 
+  const handleGroupTitleChange = (e) => {
+    setNewGroupTitle(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      addNewGroup();
+    }
+  };
+
+  const updateAllGroups = (updatedGroups) => {
+    setGroups(updatedGroups);
+  };
   return (
     <div className={styles.taskBoard}>
       <TaskBoardHeader />
@@ -107,7 +81,6 @@ export default function TaskBoard() {
             setDroppedOverCardInfo={setDroppedOverCardInfo}
             newCard={newCard}
             setNewCard={setNewCard}
-            newCardRef={newCardRef}
             updateAllGroups={updateAllGroups}
           />
         ))}
